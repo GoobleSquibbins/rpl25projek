@@ -1,0 +1,7 @@
+{
+    "Users": true,
+    "UserModule": true,
+    "Transaction": true,
+    "Service": true,
+    "Report": true
+}
