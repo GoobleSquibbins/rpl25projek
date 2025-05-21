@@ -30,8 +30,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        $this->mapModuleRoutes();
     }
 
     /**
@@ -57,15 +55,5 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->moduleNamespace)
             ->group(module_path('Service', '/routes/api.php'));
-    }
-
-    protected function mapModuleRoutes()
-    {
-        $moduleRoutesPath = base_path('Modules');
-
-        // If your module exists, load the module's routes
-        foreach (glob("{$moduleRoutesPath}/*/Routes/web.php") as $routeFile) {
-            require $routeFile;
-        }
     }
 }

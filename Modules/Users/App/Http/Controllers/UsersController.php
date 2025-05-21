@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -18,6 +19,22 @@ class UsersController extends Controller
     public function index()
     {
         return view('users::login');
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+        if (Auth::attempt(['name' => $request->username, 'password' => $request->password])) {
+            $request->session()->regenerate();
+            return redirect()->intended('/main');
+        }
+
+        return back()->withErrors([
+            'password' => 'Wrong username or password',
+        ]);
     }
 
     public function users()
@@ -35,7 +52,7 @@ class UsersController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'role' => 'required|unique:tb_user',
+            'role' => 'required',
             'password' => 'required',
             'password_confirm' => 'required|same:password',
             'email' => 'required',
@@ -45,7 +62,7 @@ class UsersController extends Controller
         ]);
 
         $user = new User([
-            'nama' => $request->nama,
+            'name' => $request->name,
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'telephone' => $request->telephone,
@@ -54,7 +71,14 @@ class UsersController extends Controller
         ]);
 
         $user->save();
-
         return redirect()->route('user')->with('success', 'Registration complete, you may now login');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login');
     }
 }

@@ -18,5 +18,5 @@ Route::group([], function () {
     Route::resource('transaction', TransactionController::class)->names('transaction');
 });
 
-route::get('/main', [TransactionController::class, 'main']);
+route::get('/main', [TransactionController::class, 'main'])->name('main');
 route::get('/create_transaction', [TransactionController::class, 'create']);

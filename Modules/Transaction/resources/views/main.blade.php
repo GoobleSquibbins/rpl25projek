@@ -12,12 +12,19 @@
 
 <body class="home">
     <div class="sidebar">
-        <div class="sidebar_content" id="active">Home</div>
-        <div class="sidebar_content">Users</div>
-        <div class="sidebar_content">Speed</div>
-        <div class="sidebar_content">Item</div>
-        <div class="sidebar_content">Report</div>
-        <div class="sidebar_content">Logout</div>
+        @if (Auth::user()->role == 'admin')
+            <div class="sidebar_content" id="active">Home</div>
+            <a class="sidebar_content" href="{{ route('user') }}">Users</a>
+            <div class="sidebar_content">Speed</div>
+            <div class="sidebar_content">Item</div>
+            <div class="sidebar_content">Report</div>
+            <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
+        @endif
+        @if (Auth::user()->role == 'cashier')
+            <div class="sidebar_content" id="active">Home</div>
+            <div class="sidebar_content">Report</div>
+            <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
+        @endif
     </div>
     <div class="home_content">
         <a href="" class="add_x">+ Transaction</a>

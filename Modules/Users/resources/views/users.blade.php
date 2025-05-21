@@ -12,15 +12,16 @@
 
 <body class="home">
     <div class="sidebar">
-        <div class="sidebar_content">Home</div>
+        <a class="sidebar_content" href="{{ route('main') }}">Home</a>
         <div class="sidebar_content" id="active">Users</div>
         <div class="sidebar_content">Speed</div>
         <div class="sidebar_content">Item</div>
         <div class="sidebar_content">Report</div>
-        <div class="sidebar_content">Logout</div>
+        <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
+        <div class="sidebar_content">{{Auth::user()->name}}</div>
     </div>
     <div class="home_content">
-        <a href="" class="add_x">+ User</a>
+        <a href="{{ route('register.user') }}" class="add_x">+ User</a>
         <h1>RESIK LAUNDRY</h1>
         <table class="main_table">
             <tr>
@@ -38,7 +39,19 @@
                 <td>{{ $users->email }}</td>
                 <td>{{ $users->telephone }}</td>
                 <td>{{ $users->address }}</td>
-                <td>TBA</td>
+                <td>
+                    <a href="/show">Show</a>
+                    <br>
+                    <a href="/edit">Edit</a>
+                    <br>
+                    <a href="/delete">Delete</a>
+                    <!-- <select name="" id="" onchange="location = this.value;">                        
+                        <option value="">Action</option>
+                        <option value="/show_user">Show</option>
+                        <option value="/edit_user">Edit</option>
+                        <option value="/delete_user">Delete</option>
+                    </select> -->
+                </td>
             </tr>
             @endforeach
         </table>

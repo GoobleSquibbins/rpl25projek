@@ -12,41 +12,52 @@
 
 <body class="home">
     <div class="sidebar">
-        <div class="sidebar_content">Home</div>
-        <div class="sidebar_content">Users</div>
+        <a class="sidebar_content" href="{{ route('main') }}">Home</a>
+        <a class="sidebar_content" href="{{ route('user') }}">Users</a>
         <div class="sidebar_content">Speed</div>
         <div class="sidebar_content">Item</div>
         <div class="sidebar_content">Report</div>
-        <div class="sidebar_content">Logout</div>
+        <a class="sidebar_content" href="{{ route('logout')  }}">Logout</a>
     </div>
     <div class="home_content">
-        <a href="" class="add_x">Back</a>
+        <a href="{{ route('user')  }}" class="add_x">Back</a>
         <h1>REGISTER USER</h1>
-        <div class="card_transaction_create">
-            <form action="/login_proc" method="post" class="form_create_transaction">
+        <div class="card_user_create">
+            <form action="{{ route('store.user') }}" method="post" class="form_create_user">
+            @csrf
                 <div class="form_item">
-                    <label for="">Name</label>
-                    <input type="text">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name">
                 </div>
 
                 <div class="form_item">
-                    <label for="">Role</label>
-                    <input type="text">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password">
                 </div>
 
                 <div class="form_item">
-                    <label for="">E-mail</label>
-                    <input type="text">
+                    <label for="password_confirm">Confirm Password</label>
+                    <input type="password" id="password_confirm" name="password_confirm">
                 </div>
 
                 <div class="form_item">
-                    <label for="">Telephone</label>
-                    <input type="text">
+                    <label for="role">Role</label>
+                    <input type="text" id="role" name="role">
                 </div>
 
                 <div class="form_item">
-                    <label for="">Address</label>
-                    <input type="text">
+                    <label for="email">E-mail</label>
+                    <input type="text" id="email" name="email">
+                </div>
+
+                <div class="form_item">
+                    <label for="telephone">Telephone</label>
+                    <input type="text" id="telephone" name="telephone">
+                </div>
+
+                <div class="form_item">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address">
                 </div>
 
                 <button class="btn_submit_create_transaction">Add Transaction</button>

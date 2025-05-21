@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        $this->mapModuleRoutes();
+        // $this->mapModuleRoutes();
     }
 
     /**
@@ -59,13 +59,13 @@ class RouteServiceProvider extends ServiceProvider
             ->group(module_path('Users', '/routes/api.php'));
     }
 
-    protected function mapModuleRoutes()
-    {
-        $moduleRoutesPath = base_path('Modules');
+    // protected function mapModuleRoutes()
+    // {
+    //     $moduleRoutesPath = base_path('Modules');
 
-        // If your module exists, load the module's routes
-        foreach (glob("{$moduleRoutesPath}/*/Routes/web.php") as $routeFile) {
-            require $routeFile;
-        }
-    }
+    //     // If your module exists, load the module's routes
+    //     foreach (glob("{$moduleRoutesPath}/*/Routes/web.php") as $routeFile) {
+    //         require $routeFile;
+    //     }
+    // }
 }

@@ -19,7 +19,9 @@ Route::group([], function () {
 });
 
 route::get('/', [UsersController::class, 'index']);
-route::get('/login', [UsersController::class, 'index']);
-route::post('/login_proc', [UsersController::class, 'index'])->name('login_proc');
-route::get('/users', [UsersController::class, 'users']);
-route::get('/create_user', [UsersController::class, 'create']);
+route::get('/login', [UsersController::class, 'index'])->name('login');
+route::post('/login_proc', [UsersController::class, 'login'])->name('login_proc');
+route::get('/users', [UsersController::class, 'users'])->name('user');
+route::get('/register_user', [UsersController::class, 'create'])->name('register.user');
+route::post('/store_user', [UsersController::class, 'store'])->name('store.user');
+route::get('/logout', [UsersController::class, 'logout'])->name('logout');
