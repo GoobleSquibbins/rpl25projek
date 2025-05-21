@@ -40,11 +40,11 @@
                 <td>{{ $users->telephone }}</td>
                 <td>{{ $users->address }}</td>
                 <td>
-                    <a href="/show">Show</a>
+                    <a href="{{ route('show', ['user_id' => $users->user_id]) }}">Show</a>
                     <br>
-                    <a href="/edit">Edit</a>
+                    <a href="{{ route('edit.user', ['user_id' => $users->user_id]) }}">Edit</a>
                     <br>
-                    <a href="/delete">Delete</a>
+                    <a href="{{ route('delete.user', ['user_id' => $users->user_id]) }}">Delete</a>
                     <!-- <select name="" id="" onchange="location = this.value;">                        
                         <option value="">Action</option>
                         <option value="/show_user">Show</option>

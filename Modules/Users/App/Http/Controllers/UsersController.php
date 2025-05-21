@@ -43,6 +43,12 @@ class UsersController extends Controller
         return view('users::users', ['data' => $data]);
     }
 
+    public function show($user_id)
+    {
+        $data = DB::table('users')->where('user_id', $user_id)->first();
+        return view('users::show', ['data' => $data]);
+    }
+
     public function create()
     {
         return view('users::create');
@@ -55,7 +61,7 @@ class UsersController extends Controller
             'role' => 'required',
             'password' => 'required',
             'password_confirm' => 'required|same:password',
-            'email' => 'required',
+            'email' => 'required|email',
             'telephone' => 'required|min:12',
             'address' => 'required',
 
@@ -72,6 +78,51 @@ class UsersController extends Controller
 
         $user->save();
         return redirect()->route('user')->with('success', 'Registration complete, you may now login');
+    }
+
+    public function edit($user_id)
+    {
+        $data = DB::table('users')->where('user_id', $user_id)->first();
+        return view('users::edit', ['data' => $data]);
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'pass_confirm' => 'same:password',
+            'role' => 'required',
+            'telephone' => 'required|min:12',
+            'email' => 'required|email',
+            'address' => 'required',
+        ]);
+        if ($request->password == "") {
+            # code...
+            DB::table('users')->where('user_id', $request->user_id)->update([
+                'name' => $request->name,
+                'role' => $request->role,
+                'telephone' => $request->telephone,
+                'email' => $request->email,
+                'address' => $request->address,
+            ]);
+            return redirect()->route('user');
+        } else {
+            DB::table('users')->where('user_id', $request->user_id)->update([
+                'name' => $request->name,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'telephone' => $request->telephone,
+                'email' => $request->email,
+                'address' => $request->address,
+            ]);
+            return redirect()->route('user');
+        }
+    }
+
+    public function delete($user_id)
+    {
+        DB::table('users')->where('user_id', $user_id)->delete();
+        return redirect()->route('user');
     }
 
     public function logout(Request $request)
