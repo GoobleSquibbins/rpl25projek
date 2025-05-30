@@ -14,9 +14,9 @@ use Modules\Users\App\Http\Controllers\UsersController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('users', UsersController::class)->names('users');
-});
+// Route::group([], function () {
+//     Route::resource('users', UsersController::class)->names('users');
+// });
 
 route::get('/', [UsersController::class, 'index']);
 route::get('/login', [UsersController::class, 'index'])->name('login');

@@ -3,65 +3,73 @@
 namespace Modules\Transaction\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
+use App\Models\Speed;
+use App\Models\Item;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function main()
     {
-        return view('transaction::main');
+        $data = Transaction::all();
+        return view('transaction::main', ['data' => $data]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function details($transaction_id)
+    {
+        $data = Transaction::find($transaction_id);
+
+        if (!$data) {
+            dd("Can't find transaction ID: " . $transaction_id);
+        }
+
+        return view('transaction::detail', ['data' => $data]);
+    }
+
+
     public function create()
     {
-        return view('transaction::create_transaction');
+        $speed = Speed::all();
+        $item = item::all();
+        return view('transaction::create', compact('speed', 'item'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'client_name' => 'required',
+            'speed' => 'required',
+            'item' => 'required',
+            'qty' => 'required',
+        ]);
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('transaction::show');
-    }
+        $speed = Speed::find($request->speed);
+        $item = Item::find($request->item);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('transaction::edit');
-    }
+        $inv = 'INV' . now()->format('YmdHis') . strtoupper(Str::random(4));
+        $pickup_date = now()->addHours($speed->duration_hour);
+        $total_price = $speed->price + $item->price * $request->qty;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
+        Transaction::create([
+            'invoice_id' => $inv,
+            'client_name' => $request->client_name,
+            'cashier_name' => Auth::user()->name,
+            'transaction_date' => now(),
+            'pickup_date' => $pickup_date,
+            'speed' => $speed->name,
+            'item' => $item->name,
+            'qty' => $request->qty,
+            'total_price' => $total_price,
+            'status' => 'pending',
+            'notes' => 'kys'
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('main');
     }
 }

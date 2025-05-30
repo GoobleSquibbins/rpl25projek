@@ -12,12 +12,13 @@
 
 <body class="home">
     <div class="sidebar">
-        <a class="sidebar_content" href="{{ route('main') }}">Home</a>
-        <a class="sidebar_content" href="{{ route('user') }}">Users</a>
-        <div class="sidebar_content">Speed</div>
-        <div class="sidebar_content">Item</div>
-        <div class="sidebar_content">Report</div>
-        <a class="sidebar_content" href="{{ route('logout')  }}">Logout</a>
+            <a class="sidebar_content" href="{{ route('main') }}">Transaction</a>
+            <a class="sidebar_content" href="{{ route('user') }}" id="active">Users</a>
+            <a class="sidebar_content" href="{{ route('speed') }}">Speed</a>
+            <a class="sidebar_content" href="{{ route('item') }}">Item</a>
+            <a class="sidebar_content" href="{{ route('report') }}">Report</a>
+            <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
+      
     </div>
     <div class="home_content">
         <a href="{{ route('user')  }}" class="add_x">Back</a>

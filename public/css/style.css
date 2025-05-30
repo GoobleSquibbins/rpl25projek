@@ -23,6 +23,7 @@ body {
 
 #active {
     background: rgb(78, 78, 78);
+    color: white;
 }
 
 .error {
@@ -171,6 +172,13 @@ form .txt_field {
 .sidebar_content:hover {
     background: rgb(78, 78, 78);
     cursor: pointer;
+    color: white;
+}
+
+.sidebar a{
+    color: rgb(104, 104, 104);
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .home_content {
@@ -211,9 +219,10 @@ table td {
     background: rgb(40, 192, 98);
     color: white;
     position: absolute;
-    top: 20px;
-    left: 157px;
-    border-radius: 5px;
+    top: 44px;
+    left: 155px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
     text-decoration: none;
     font-weight: bold;
     transition: .2s;

@@ -39,13 +39,13 @@ class UsersController extends Controller
 
     public function users()
     {
-        $data = DB::table('users')->get();
+        $data = User::all();
         return view('users::users', ['data' => $data]);
     }
 
     public function show($user_id)
     {
-        $data = DB::table('users')->where('user_id', $user_id)->first();
+        $data = User::find($user_id);
         return view('users::show', ['data' => $data]);
     }
 
@@ -67,7 +67,7 @@ class UsersController extends Controller
 
         ]);
 
-        $user = new User([
+        User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'role' => $request->role,
@@ -76,13 +76,12 @@ class UsersController extends Controller
             'address' => $request->address,
         ]);
 
-        $user->save();
         return redirect()->route('user')->with('success', 'Registration complete, you may now login');
     }
 
     public function edit($user_id)
     {
-        $data = DB::table('users')->where('user_id', $user_id)->first();
+        $data = User::find($user_id);
         return view('users::edit', ['data' => $data]);
     }
 
@@ -96,32 +95,26 @@ class UsersController extends Controller
             'email' => 'required|email',
             'address' => 'required',
         ]);
-        if ($request->password == "") {
-            # code...
-            DB::table('users')->where('user_id', $request->user_id)->update([
-                'name' => $request->name,
-                'role' => $request->role,
-                'telephone' => $request->telephone,
-                'email' => $request->email,
-                'address' => $request->address,
-            ]);
-            return redirect()->route('user');
-        } else {
-            DB::table('users')->where('user_id', $request->user_id)->update([
-                'name' => $request->name,
-                'password' => Hash::make($request->password),
-                'role' => $request->role,
-                'telephone' => $request->telephone,
-                'email' => $request->email,
-                'address' => $request->address,
-            ]);
-            return redirect()->route('user');
-        }
+
+        $user = User::find($request->user_id);
+        $user->name = $request->name;
+        $user->role = $request->role;
+        $user->telephone = $request->telephone;
+        $user->email = $request->email;
+        $user->address = $request->address;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }        
+
+        $user->save();
+
+        return redirect()->route('user');
     }
 
     public function delete($user_id)
     {
-        DB::table('users')->where('user_id', $user_id)->delete();
+        User::destroy($user_id);
         return redirect()->route('user');
     }
 

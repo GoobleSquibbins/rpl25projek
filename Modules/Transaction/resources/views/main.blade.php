@@ -11,13 +11,13 @@
 </head>
 
 <body class="home">
-    <div class="sidebar">
+<div class="sidebar">
         @if (Auth::user()->role == 'admin')
-            <div class="sidebar_content" id="active">Home</div>
+            <a class="sidebar_content" href="{{ route('main') }}" id="active">Transaction</a>
             <a class="sidebar_content" href="{{ route('user') }}">Users</a>
-            <div class="sidebar_content">Speed</div>
-            <div class="sidebar_content">Item</div>
-            <div class="sidebar_content">Report</div>
+            <a class="sidebar_content" href="{{ route('speed') }}">Speed</a>
+            <a class="sidebar_content" href="{{ route('item') }}">Item</a>
+            <a class="sidebar_content" href="{{ route('report') }}">Report</a>
             <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
         @endif
         @if (Auth::user()->role == 'cashier')
@@ -27,7 +27,7 @@
         @endif
     </div>
     <div class="home_content">
-        <a href="" class="add_x">+ Transaction</a>
+        <a href="{{ route('add.transaction')  }}" class="add_x">+ Transaction</a>
         <h1>RESIK LAUNDRY</h1>
         <table class="main_table">
             <tr>
@@ -35,19 +35,21 @@
                 <th>Client Name</th>
                 <th>Cashier</th>
                 <th>Transaction Date</th>
-                <th>Pickup Date</th>
-                <th>Speed</th>
-                <th>Total Price</th>
                 <th>Status</th>
-                <th>Notes</th>
                 <th>Action</th>
             </tr>
-            <tr>
-
-            </tr>
-            <tr>
-
-            </tr>
+            @foreach ($data as $d)
+                <tr>
+                    <td>{{ $d->invoice_id }}</td>
+                    <td>{{ $d->client_name }}</td>
+                    <td>{{ $d->cashier_name }}</td>
+                    <td>{{ $d->transaction_date }}</td>
+                    <td>{{ $d->status }}</td>
+                    <td>
+                        <a href="{{ route('details', ['transaction_id' => $d->transaction_id]) }}">Details</a>
+                    </td>
+                </tr>
+            @endforeach
         </table>
     </div>
     </div>

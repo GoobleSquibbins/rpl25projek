@@ -19,4 +19,12 @@ Route::group([], function () {
 });
 
 route::get('/main', [TransactionController::class, 'main'])->name('main');
-route::get('/create_transaction', [TransactionController::class, 'create']);
+route::get('/detail/{transaction_id}', [TransactionController::class, 'details'])->name('details');
+
+route::get('/create_transaction', [TransactionController::class, 'create'])->name('add.transaction');
+route::post('/store_transaction', [TransactionController::class, 'store'])->name('store.transaction');
+
+route::get('/edit_transaction/{transaction_id}', [TransactionController::class, 'edit'])->name('edit.transaction');
+route::post('/update_transaction/{transaction_id}', [TransactionController::class, 'update'])->name('update.transaction');
+
+route::get('/delete_transaction/{transaction_id}', [TransactionController::class, 'delete'])->name('delete.transaction');
