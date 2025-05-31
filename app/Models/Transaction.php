@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,12 +17,12 @@ class Transaction extends Model
         'client_name',
         'cashier_name',
         'transaction_date',
-        'pickup_date',
-        'speed',
-        'item',
-        'qty',
-        'total_price',
-        'status',
+        'total',
         'notes',
     ];
+
+    public function details()
+    {
+        return $this->hasMany(TransactionDetail::class, 'transaction_id');
+    }
 }

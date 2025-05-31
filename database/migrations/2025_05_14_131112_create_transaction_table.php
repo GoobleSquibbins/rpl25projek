@@ -16,13 +16,8 @@ return new class extends Migration
             $table->string('invoice_id');
             $table->string('client_name');
             $table->string('cashier_name');
-            $table->date(column: 'transaction_date');
-            $table->date('pickup_date');
-            $table->string('speed');
-            $table->string('item');
-            $table->string('qty');
-            $table->decimal('total_price');
-            $table->enum('status', ['pending', 'in_process', 'done', 'picked_up']);
+            $table->datetime( 'transaction_date');
+            $table->decimal('total');
             $table->string('notes')->nullable();
             $table->timestamps();
         });

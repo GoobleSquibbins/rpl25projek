@@ -30,114 +30,49 @@
         <a href="{{ route('main')  }}" class="add_x">Back</a>
         <h1>RESIK LAUNDRY</h1>
         <div class="table_det">
+            <!-- Transaction Header (only once) -->
             <table>
-                <tr>
-                    <td>
-                        Invoice ID
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->invoice_id }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Client Name
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->client_name }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Cashier
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->cashier_name }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Transaction Date
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->transaction_date }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Pick-up Date
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->pickup_date }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Speed
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->speed }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Item
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->item }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        QTY
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->qty }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Total Price
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->total_price }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Status
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->status }}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        Notes
-                    </td>
-                    <td>:</td>
-                    <td>
-                        {{ $data->notes }}
-                    </td>
-                </tr>
+                <tr><td>Invoice ID</td><td>:</td><td>{{ $data->invoice_id }}</td></tr>
+                <tr><td>Client Name</td><td>:</td><td>{{ $data->client_name }}</td></tr>
+                <tr><td>Cashier</td><td>:</td><td>{{ $data->cashier_name }}</td></tr>
+                <tr><td>Transaction Date</td><td>:</td><td>{{ $data->transaction_date }}</td></tr>
+                <tr><td>Total Price</td><td>:</td><td>{{ $data->total }}</td></tr>
+                <tr><td>Notes</td><td>:</td><td>{{ $data->notes }}</td></tr>
             </table>
+
+            <!-- Item Details (multiple) -->
+            @foreach ($order_items as $item)
+                <table style="margin-top: 1rem;">
+                    <tr><td>Speed</td><td>:</td><td>{{ $item->speed }}</td></tr>
+                    <tr><td>Item</td><td>:</td><td>{{ $item->item }}</td></tr>
+                    <tr><td>QTY</td><td>:</td><td>{{ $item->qty }}</td></tr>
+                    <tr><td>Subtotal</td><td>:</td><td>{{ $item->subtotal }}</td></tr>
+                    <tr><td>Status</td><td>:</td><td>{{ $item->status }}</td></tr>
+                    <tr><td>Finish Date</td><td>:</td><td>{{ $item->finish_date }}</td></tr>
+                </table>
+                <div class="actions">
+                    <a href="{{ route('advance.transaction', ['transaction_id' => $item->transaction_id]) }}">
+                            @switch($item->status->value)
+                                @case('pending')
+                                    Start Order
+                                    @break
+        
+                                @case('in_process')
+                                    Finish Order
+                                    @break
+        
+                                @case('done')
+                                    Order Picked-Up
+                                    @break
+                            @endswitch
+                    </a>
+                    @if($item->status->value == 'pending')
+                        <a href="{{ route('edit.transaction', ['transaction_id' => $item->transaction_id]) }}">Edit Transaction</a>
+                    @endif
+                    <a href="{{ route('delete.transaction', ['transaction_id' => $item->transaction_id]) }}">Delete
+                        Transaction</a>
+                </div>
+            @endforeach
         </div>
     </div>
     </div>

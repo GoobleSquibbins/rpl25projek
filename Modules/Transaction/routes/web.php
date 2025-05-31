@@ -28,3 +28,4 @@ route::get('/edit_transaction/{transaction_id}', [TransactionController::class, 
 route::post('/update_transaction/{transaction_id}', [TransactionController::class, 'update'])->name('update.transaction');
 
 route::get('/delete_transaction/{transaction_id}', [TransactionController::class, 'delete'])->name('delete.transaction');
+route::get('/advance_order/{transaction_id}', [TransactionController::class, 'advance'])->name('advance.transaction');

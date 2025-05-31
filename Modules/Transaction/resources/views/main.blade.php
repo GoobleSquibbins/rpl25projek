@@ -44,7 +44,15 @@
                     <td>{{ $d->client_name }}</td>
                     <td>{{ $d->cashier_name }}</td>
                     <td>{{ $d->transaction_date }}</td>
-                    <td>{{ $d->status }}</td>
+                    <td>
+                        @php
+                            $statusCounts = $d->details->groupBy('status')->map->count();
+                        @endphp
+
+                        @foreach ($statusCounts as $status => $count)
+                            <div>{{ ucfirst(str_replace('_', ' ', $status)) }} ({{ $count }})</div>
+                        @endforeach
+                    </td>
                     <td>
                         <a href="{{ route('details', ['transaction_id' => $d->transaction_id]) }}">Details</a>
                     </td>
