@@ -26,6 +26,11 @@ class TransactionDetail extends Model
         'status' => OrderStatus::class,
     ];
 
+    public function transaction()
+{
+    return $this->belongsTo(Transaction::class, 'transaction_id');
+}
+
     public function advanceStatus(): void
     {
         switch ($this->status) {

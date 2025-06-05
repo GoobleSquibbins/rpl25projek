@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <title>Item</title>
+    <title>Main</title>
 </head>
 
 <body>
     <div class="main">
+
         <div class="sidebar">
             @if (Auth::user()->role == 'admin')
-                <a class="sidebar_content" href="{{ route('main') }}">Transaction</a>
+                <a class="sidebar_content" href="{{ route('main') }}" id="active">Transaction</a>
                 <a class="sidebar_content" href="{{ route('user') }}">Users</a>
                 <a class="sidebar_content" href="{{ route('speed') }}">Speed</a>
-                <a class="sidebar_content" href="{{ route('item') }}" id="active">Item</a>
+                <a class="sidebar_content" href="{{ route('item') }}">Item</a>
                 <a class="sidebar_content" href="{{ route('report') }}">Report</a>
                 <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
-
             @endif
             @if (Auth::user()->role == 'cashier')
                 <div class="sidebar_content" id="active">Home</div>
@@ -29,45 +29,45 @@
             @endif
         </div>
         <div class="home_content">
-            <a href="{{ route('add.item') }}" class="add_x">+ Item</a>
-            <h1 class="title">RESIK LAUNDRY</h1>
+        <a href="{{ route('main')  }}" class="add_x">Back</a>
+            <h1 class="title">FINISHED TRANSACTION</h1>
             <table class="main_table">
                 <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Price</th>
-                    <th>Created</th>
-                    <th>Updated</th>
+                    <th>Invoice ID</th>
+                    <th>Client Name</th>
+                    <th>Cashier</th>
+                    <th>Transaction Date</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
-                @foreach ($data as $speed)
+                @foreach ($data as $d)
                     <tr>
                         <td>
-                            {{ $speed->name }}
+                            {{ $d->invoice_id }}
                         </td>
                         <td>
-                            {{ $speed->unit_type }}
+                            {{ $d->client_name }}
                         </td>
                         <td>
-                            Rp
-                            {{ number_format($speed->price, 0, ',', '.') }}
+                            {{ $d->cashier_name }}
                         </td>
                         <td>
-                            {{ $speed->created_at }}
+                            {{ $d->transaction_date }}
                         </td>
                         <td>
-                            {{ $speed->updated_at }}
+                            @php
+                                $statusCounts = $d->details->groupBy('status')->map->count();
+                            @endphp
+
+                            @foreach ($statusCounts as $status => $count)
+                                <div>
+                                    {{ ucfirst(str_replace('_', ' ', $status)) }} (
+                                    {{ $count }})
+                                </div>
+                            @endforeach
                         </td>
                         <td>
-                            <a href="{{ route('edit.item', ['item_id' => $speed->item_id]) }}">Edit</a>
-                            <br>
-                            <a href="{{ route('delete.item', ['item_id' => $speed->item_id]) }}">Delete</a>
-                            <!-- <select name="" id="" onchange="location = this.value;">                        
-                                        <option value="">Action</option>
-                                        <option value="/show_user">Show</option>
-                                        <option value="/edit_user">Edit</option>
-                                        <option value="/delete_user">Delete</option>
-                                    </select> -->
+                            <a href="{{ route('history.details', ['transaction_id' => $d->transaction_id]) }}">Details</a>                            
                         </td>
                     </tr>
                 @endforeach

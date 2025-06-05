@@ -19,6 +19,7 @@ return new class extends Migration
             $table->datetime( 'transaction_date');
             $table->decimal('total');
             $table->string('notes')->nullable();
+            $table->boolean('is_finished')->default(false);
             $table->timestamps();
         });
     }

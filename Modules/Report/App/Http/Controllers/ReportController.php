@@ -3,6 +3,7 @@
 namespace Modules\Report\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -14,7 +15,11 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return view('report::index');
+        $data = Transaction::with('details')
+        ->where('finished', true)
+        ->whereBetween('transaction_date', [now()->startOfDay(), now()->endOfDay()])
+        ->orderBy('transaction_date', 'desc')->get();
+        return view('report::report', ['data' => $data]);
     }
 
     /**

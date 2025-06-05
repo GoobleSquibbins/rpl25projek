@@ -19,6 +19,7 @@ class Transaction extends Model
         'transaction_date',
         'total',
         'notes',
+        'finished',
     ];
 
     public function details()
