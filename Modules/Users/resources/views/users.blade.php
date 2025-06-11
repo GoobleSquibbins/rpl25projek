@@ -11,8 +11,15 @@
 </head>
 
 <body>
-    <div class="main">
 
+    @if (session('success'))
+        <div class="notification_success" id="notification_s">
+            <h1>Success</h1>
+            <p>{{session('success')}}</p>
+        </div>
+    @endif
+
+    <div class="main">
         <div class="sidebar">
             @if (Auth::user()->role == 'admin')
                 <a class="sidebar_content" href="{{ route('main') }}">Transaction</a>
@@ -21,13 +28,10 @@
                 <a class="sidebar_content" href="{{ route('item') }}">Item</a>
                 <a class="sidebar_content" href="{{ route('report') }}">Report</a>
                 <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
-                <a class="sidebar_content" href="{{ route('logout') }}">
-                    {{ Auth::user()->name }}
-                </a>
             @endif
             @if (Auth::user()->role == 'cashier')
-                <div class="sidebar_content" id="active">Home</div>
-                <div class="sidebar_content">Report</div>
+                <a class="sidebar_content" id="active">Transaction</a>
+                <a class="sidebar_content">Report</a>
                 <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
             @endif
         </div>
@@ -67,11 +71,11 @@
                             <br>
                             <a href="{{ route('delete.user', ['user_id' => $users->user_id]) }}">Delete</a>
                             <!-- <select name="" id="" onchange="location = this.value;">                        
-                                    <option value="">Action</option>
-                                    <option value="/show_user">Show</option>
-                                    <option value="/edit_user">Edit</option>
-                                    <option value="/delete_user">Delete</option>
-                                </select> -->
+                                        <option value="">Action</option>
+                                        <option value="/show_user">Show</option>
+                                        <option value="/edit_user">Edit</option>
+                                        <option value="/delete_user">Delete</option>
+                                    </select> -->
                         </td>
                     </tr>
                 @endforeach
@@ -79,5 +83,27 @@
         </div>
     </div>
 </body>
+
+<script>
+    const notification = document.getElementById('notification_s');
+
+    if (notification) {
+        setTimeout(() => {
+            notification.classList.add('hide');
+
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 3000);
+
+        notification.addEventListener('click', () => {
+            notification.classList.add('hide');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        });
+    }
+</script>
+
 
 </html>

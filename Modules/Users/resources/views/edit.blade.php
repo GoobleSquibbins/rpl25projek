@@ -30,15 +30,21 @@
                     <input type="hidden" name="user_id" value="{{$data->user_id}}">
                     <div class="form_item">
                         <label for="name">Name</label>
-                        <input type="text" name="name" placeholder="Nama User*" value="{{$data->name}}">
+                        <input type="text" name="name"value="{{$data->name}}">
+                        @error('name')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="form_item">
-                        <label for="password">Password</label>
-                        <input type="password" name="password" placeholder="Password* (kosongkan jika tidak perlu)">
+                        <label for="password">Password (kosongkan jika tidak perlu)</label>
+                        <input type="password" name="password">
                     </div>
                     <div class="form_item">
                         <label for="pass_confirm">Confirm Password</label>
-                        <input type="password" name="pass_confirm" placeholder="Confirm Password*">
+                        <input type="password" name="pass_confirm">
+                        @error('pass_confirm')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="form_item">
                         <label for="role"></label>
@@ -53,13 +59,25 @@
                         </select>
                     </div>
                     <div class="form_item">
-                        <input type="text" name="email" placeholder="Email User" value="{{$data->email}}">
+                        <label for="email"></label>
+                        <input type="text" name="email" value="{{$data->email}}">
+                        @error('email')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="form_item">
-                        <input type="text" name="telephone" placeholder="Telephone User" value="{{$data->telephone}}">
+                        <label for="telephone"></label>
+                        <input type="text" name="telephone" value="{{$data->telephone}}">
+                        @error('telephone')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="form_item">
-                        <input type="text" name="address" placeholder="Nama User" value="{{$data->address}}">
+                        <label for="address"></label>
+                        <input type="text" name="address" value="{{$data->address}}">
+                        @error('address')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
                     <button class="btn_submit_create">Ok</button>
                 </form>

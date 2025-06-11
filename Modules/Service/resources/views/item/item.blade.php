@@ -11,6 +11,14 @@
 </head>
 
 <body>
+    @if (session('success'))
+        <div class="notification_success" id="notification_s">
+            <h1>Success</h1>
+            <p>
+                {{session('success')}}
+            </p>
+        </div>
+    @endif
     <div class="main">
         <div class="sidebar">
             @if (Auth::user()->role == 'admin')
@@ -63,11 +71,11 @@
                             <br>
                             <a href="{{ route('delete.item', ['item_id' => $speed->item_id]) }}">Delete</a>
                             <!-- <select name="" id="" onchange="location = this.value;">                        
-                                        <option value="">Action</option>
-                                        <option value="/show_user">Show</option>
-                                        <option value="/edit_user">Edit</option>
-                                        <option value="/delete_user">Delete</option>
-                                    </select> -->
+                                                <option value="">Action</option>
+                                                <option value="/show_user">Show</option>
+                                                <option value="/edit_user">Edit</option>
+                                                <option value="/delete_user">Delete</option>
+                                            </select> -->
                         </td>
                     </tr>
                 @endforeach
@@ -75,5 +83,26 @@
         </div>
     </div>
 </body>
+
+<script>
+    const notification = document.getElementById('notification_s');
+
+    if (notification) {
+        setTimeout(() => {
+            notification.classList.add('hide');
+
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 3000);
+
+        notification.addEventListener('click', () => {
+            notification.classList.add('hide');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        });
+    }
+</script>
 
 </html>

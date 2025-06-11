@@ -27,14 +27,14 @@ class UsersController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
-        if (Auth::attempt(['name' => $request->username, 'password' => $request->password])) {
-            $request->session()->regenerate();
-            return redirect()->intended('/main');
+        if (!Auth::attempt(['name' => $request->username, 'password' => $request->password])) {
+            return back()->withErrors([
+                'login' => 'Wrong username or password',
+            ])->withInput();
         }
 
-        return back()->withErrors([
-            'password' => 'Wrong username or password',
-        ]);
+        $request->session()->regenerate();
+        return redirect()->intended('/main');
     }
 
     public function users()
@@ -67,7 +67,7 @@ class UsersController extends Controller
 
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'password' => Hash::make($request->password),
             'role' => $request->role,
@@ -76,7 +76,7 @@ class UsersController extends Controller
             'address' => $request->address,
         ]);
 
-        return redirect()->route('user')->with('success', 'Registration complete, you may now login');
+        return redirect()->route('user')->with('success', 'User '.$user->name.' added as '.$user->role);
     }
 
     public function edit($user_id)
@@ -105,17 +105,18 @@ class UsersController extends Controller
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
-        }        
+        }
 
         $user->save();
 
-        return redirect()->route('user');
+        return redirect()->route('user')->with('success', 'User '.$user->name."'s data editted");
     }
 
     public function delete($user_id)
     {
+        $username = User::find($user_id)->name;
         User::destroy($user_id);
-        return redirect()->route('user');
+        return redirect()->route('user')->with('success', 'User '. $username .' successfully deleted');
     }
 
     public function logout(Request $request)
@@ -123,6 +124,6 @@ class UsersController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success', 'Logout Success');
     }
 }

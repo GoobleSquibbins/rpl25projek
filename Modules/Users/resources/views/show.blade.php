@@ -10,31 +10,64 @@
     <title>Users</title>
 </head>
 
-<body class="home">
-<div class="sidebar">
-        @if (Auth::user()->role == 'admin')
+<body>
+    <div class="main">
+
+        <div class="sidebar">
             <a class="sidebar_content" href="{{ route('main') }}">Transaction</a>
             <a class="sidebar_content" href="{{ route('user') }}" id="active">Users</a>
             <a class="sidebar_content" href="{{ route('speed') }}">Speed</a>
             <a class="sidebar_content" href="{{ route('item') }}">Item</a>
             <a class="sidebar_content" href="{{ route('report') }}">Report</a>
             <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
-        @endif
-        @if (Auth::user()->role == 'cashier')
-            <div class="sidebar_content" id="active">Home</div>
-            <div class="sidebar_content">Report</div>
-            <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
-        @endif
-    </div>
-    <div class="home_content">
-        <a href="{{ route('register.user') }}" class="add_x">+ User</a>
-        <h1>RESIK LAUNDRY</h1>
-            
-                <h1>{{ $data->name }}</h1>
-                <h3>{{ $data->role }}</h3>
-                <h3>{{ $data->email }}</h3>
-                <h3>{{ $data->telephone }}</h3>
-                <h3>{{ $data->address }}</h3>
+        </div>
+        <div class="home_content">
+            <a href="{{ route('user') }}" class="add_x">Back</a>
+            <h1 class="title">RESIK LAUNDRY</h1>
+            <div class="user_detail_container">
+                <table class="user_detail">
+                    <tr>
+                        <td>Name</td>
+                        <td>:</td>
+                        <td>
+                            {{ $data->name }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Role</td>
+                        <td>:</td>
+                        <td>
+                            {{ $data->role }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Email</td>
+                        <td>:</td>
+                        <td>
+                            {{ $data->email }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Phone</td>
+                        <td>:</td>
+                        <td>
+                            {{ $data->telephone }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Address</td>
+                        <td>:</td>
+                        <td>
+                            {{ $data->address }}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 

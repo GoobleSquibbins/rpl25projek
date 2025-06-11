@@ -31,6 +31,11 @@
                     <div class="form_item">
                         <label for="client_name">Client Name</label>
                         <input type="text" id="client_name" name="client_name">
+                        @error('client_name')
+                            <p class="user_create_err">
+                                {{ $message }}
+                            </p>
+                        @enderror
                     </div>
 
                     <div class="order_items" id="order-items">
@@ -62,6 +67,11 @@
                             <div class="form_item">
                                 <label>QTY</label>
                                 <input type="number" name="items[0][qty]" required>
+                                @error('items.0.qty')
+                                    <p class="user_create_err">
+                                        {{ $message }}
+                                    </p>
+                                @enderror
                             </div>
                         </div>
                     </div>

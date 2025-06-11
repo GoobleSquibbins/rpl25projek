@@ -51,7 +51,12 @@ class TransactionController extends Controller
         }
 
         if ($data->finished) {
-            return redirect()->route('main');
+            return redirect()->route('main')->with('success', 'Order finished and picked up');
+        }
+
+        if ($order_items->count() === 0) {
+            Transaction::destroy($transaction_id);
+            return redirect()->route('main')->with('success', 'Transaction deleted');
         }
 
         return view('transaction::detail', ['data' => $data, 'order_items' => $order_items]);
@@ -85,7 +90,7 @@ class TransactionController extends Controller
             $transaction->save();
         }
 
-        return redirect()->route('details', ['transaction_id' => $order->transaction_id]);
+        return redirect()->route('details', ['transaction_id' => $order->transaction_id])->with('success', value: 'Transaction item status changed');
     }
 
 
@@ -114,7 +119,7 @@ class TransactionController extends Controller
             'cashier_name' => Auth::user()->name,
             'transaction_date' => now(),
             'total' => 0,
-            'notes' => 'kys',
+            'notes' => $request->notes,
             'finished' => false
         ]);
 
@@ -138,7 +143,7 @@ class TransactionController extends Controller
 
         $transaction->save();
 
-        return redirect()->route('receipt', ['transaction_id' => $transaction->transaction_id]);
+        return redirect()->route('receipt', ['transaction_id' => $transaction->transaction_id])->with('success', 'Order placed');
     }
 
     public function edit($transaction_id)
@@ -155,7 +160,7 @@ class TransactionController extends Controller
 
         $transaction->save();
 
-        return redirect()->route('details', ['transaction_id' => $request->transaction_id]);
+        return redirect()->route('details', ['transaction_id' => $request->transaction_id])->with('success', 'Transaction data changed');
     }
 
     public function edit_item($detail_id)
@@ -192,13 +197,13 @@ class TransactionController extends Controller
 
         $transaction->save();
 
-        return redirect()->route('details', ['transaction_id' => $request->transaction_id]);
+        return redirect()->route('details', ['transaction_id' => $request->transaction_id])->with('success', 'Transaction item data changed');
     }
 
     public function delete($transaction_id)
     {
         Transaction::destroy($transaction_id);
-        return redirect()->route('main');
+        return redirect()->route('main')->with('success', 'Transaction deleted');
     }
 
     public function delete_item($detail_id, $transaction_id)
@@ -207,10 +212,10 @@ class TransactionController extends Controller
         $hasItems = TransactionDetail::where('transaction_id', $transaction_id)->exists();
 
         if ($hasItems) {
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Transaction item deleted');
         } else {
             Transaction::destroy($transaction_id);
-            return redirect()->route('main');
+            return redirect()->route('main')->with('success', 'Transaction deleted');
         }
     }
 }

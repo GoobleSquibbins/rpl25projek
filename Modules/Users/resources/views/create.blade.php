@@ -30,36 +30,57 @@
                     <div class="form_item">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name">
+                        @error('name')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="form_item">
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password">
+                        @error('password')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="form_item">
                         <label for="password_confirm">Confirm Password</label>
                         <input type="password" id="password_confirm" name="password_confirm">
+                        @error('password_confirm')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="form_item">
                         <label for="role">Role</label>
-                        <input type="text" id="role" name="role">
+                        <select name="role" id="role">
+                            <option value="admin">Admin</option>
+                            <option value="cashier">Cashier</option>
+                        </select>
                     </div>
 
                     <div class="form_item">
                         <label for="email">E-mail</label>
                         <input type="text" id="email" name="email">
+                        @error('email')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="form_item">
                         <label for="telephone">Telephone</label>
                         <input type="text" id="telephone" name="telephone">
+                        @error('telephone')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="form_item">
                         <label for="address">Address</label>
                         <input type="text" id="address" name="address">
+                        @error('address')
+                            <p class="user_create_err">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <button class="btn_submit_create">Add Transaction</button>

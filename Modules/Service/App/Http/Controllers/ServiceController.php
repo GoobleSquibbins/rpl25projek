@@ -47,7 +47,7 @@ class ServiceController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        return redirect()->route('speed');
+        return redirect()->route('speed')->with('success', 'Speed '.$request->name.' added');
     }
 
     public function store_item(Request $request)
@@ -64,7 +64,7 @@ class ServiceController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-        return redirect()->route('item');
+        return redirect()->route('item')->with('success', 'Item '.$request->name.' added');
     }
 
     public function edit_speed($speed_id)
@@ -94,7 +94,7 @@ class ServiceController extends Controller
         $speed->updated_at = now();
         $speed->save();
 
-        return redirect()->route('speed');
+        return redirect()->route('speed')->with('success', "Speed data changed");
     }
 
     public function update_item(Request $request)
@@ -112,18 +112,20 @@ class ServiceController extends Controller
         $item->updated_at = now();
         $item->save();
 
-        return redirect()->route('item');
+        return redirect()->route('item')->with('success', "Item data changed");
     }
 
     public function delete_speed($speed_id)
     {
+        $speed = Speed::find($speed_id)->name;
         Speed::destroy($speed_id);
-        return redirect()->route('speed');
+        return redirect()->route('speed')->with('success', $speed.' deleted');
     }
 
     public function delete_item($item_id)
     {
+        $item = Item::find($item_id)->name;
         Item::destroy($item_id);
-        return redirect()->route('item');
+        return redirect()->route('item')->with('success', $item.' deleted');
     }
 }

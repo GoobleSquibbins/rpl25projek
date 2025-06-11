@@ -10,6 +10,8 @@
 </head>
 
 <body>
+
+    
     <div class="receipt_container">
         <h1 class="title">RESIK LAUNDRY</h1>
         <table>
@@ -99,6 +101,24 @@
         });
     };
 
-</script>
+    const notification = document.getElementById('notification_s');
 
+    if (notification) {
+        setTimeout(() => {
+            notification.classList.add('hide');
+
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 3000);
+
+        notification.addEventListener('click', () => {
+            notification.classList.add('hide');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        });
+    }
+
+</script>
 </html>

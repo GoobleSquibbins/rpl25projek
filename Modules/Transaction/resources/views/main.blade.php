@@ -11,6 +11,14 @@
 </head>
 
 <body>
+    @if (session('success'))
+        <div class="notification_success" id="notification_s">
+            <h1>Success</h1>
+            <p>
+                {{session('success')}}
+            </p>
+        </div>
+    @endif
     <div class="main">
 
         <div class="sidebar">
@@ -23,8 +31,8 @@
                 <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
             @endif
             @if (Auth::user()->role == 'cashier')
-                <div class="sidebar_content" id="active">Home</div>
-                <div class="sidebar_content">Report</div>
+                <a class="sidebar_content" id="active">Transaction</a>
+                <a class="sidebar_content">Report</a>
                 <a class="sidebar_content" href="{{ route('logout') }}">Logout</a>
             @endif
         </div>
@@ -69,7 +77,7 @@
                         </td>
                         <td>
                             @if (!$d->finished)
-                            <a href="{{ route('details', ['transaction_id' => $d->transaction_id]) }}">Details</a>
+                                <a href="{{ route('details', ['transaction_id' => $d->transaction_id]) }}">Details</a>
                             @endif
                         </td>
                     </tr>
@@ -78,5 +86,26 @@
         </div>
     </div>
 </body>
+
+<script>
+    const notification = document.getElementById('notification_s');
+
+    if (notification) {
+        setTimeout(() => {
+            notification.classList.add('hide');
+
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 3000);
+
+        notification.addEventListener('click', () => {
+            notification.classList.add('hide');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        });
+    }
+</script>
 
 </html>
