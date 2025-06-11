@@ -11,7 +11,7 @@
 
 <body>
 
-    
+
     <div class="receipt_container">
         <h1 class="title">RESIK LAUNDRY</h1>
         <table>
@@ -43,37 +43,13 @@
                     {{ $data->transaction_date }}
                 </td>
             </tr>
-            <tr>
-                <td>Notes</td>
-                <td>:</td>
-                <td>
-                    {{ $data->notes }}
-                </td>
-            </tr>
             @foreach ($order_items as $item)
                 <tr>
-                    <td>Speed</td>
-                    <td>:</td>
                     <td>
-                        {{ $item->speed }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Item</td>
-                    <td>:</td>
-                    <td>
-                        {{ $item->item }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>QTY</td>
-                    <td>:</td>
-                    <td>
+                        {{ $item->item }},
+                        {{ $item->speed }} x
                         {{ $item->qty }}
                     </td>
-                </tr>
-                <tr>
-                    <td>Subtotal</td>
                     <td>:</td>
                     <td>Rp
                         {{ number_format($item->subtotal, 0, ',', '.') }}
@@ -85,6 +61,13 @@
                 <td>:</td>
                 <td>Rp
                     {{ number_format($data->total, 0, ',', '.') }}
+                </td>
+            </tr>
+            <tr>
+                <td>Notes</td>
+                <td>:</td>
+                <td>
+                    {{ $data->notes }}
                 </td>
             </tr>
         </table>
@@ -121,4 +104,5 @@
     }
 
 </script>
+
 </html>
