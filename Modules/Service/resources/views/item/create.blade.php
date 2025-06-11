@@ -47,7 +47,7 @@
                         <label for="price">Price</label>
                         <input type="text" id="price" name="price">
                     </div>
-                    <button class="btn_submit_create_transaction">Add Item</button>
+                    <button class="btn_submit_create">Add Item</button>
                 </form>
             </div>
         </div>

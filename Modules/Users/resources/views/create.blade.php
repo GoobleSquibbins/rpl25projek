@@ -83,7 +83,7 @@
                         @enderror
                     </div>
 
-                    <button class="btn_submit_create">Add Transaction</button>
+                    <button class="btn_submit_create">Add User</button>
                 </form>
             </div>
         </div>
