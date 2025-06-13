@@ -19,6 +19,15 @@
             </p>
         </div>
     @endif
+
+    <div class="delete_conf" id="deleteModal">
+        <h1>Delete Item?</h1>
+        <div class="del_btn">
+            <button id="del">Delete</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </div>
+
     <div class="main">
         <div class="sidebar">
             @if (Auth::user()->role == 'admin')
@@ -48,28 +57,28 @@
                     <th>Updated</th>
                     <th>Action</th>
                 </tr>
-                @foreach ($data as $speed)
+                @foreach ($data as $item)
                     <tr>
                         <td>
-                            {{ $speed->name }}
+                            {{ $item->name }}
                         </td>
                         <td>
-                            {{ $speed->unit_type }}
+                            {{ $item->unit_type }}
                         </td>
                         <td>
                             Rp
-                            {{ number_format($speed->price, 0, ',', '.') }}
+                            {{ number_format($item->price, 0, ',', '.') }}
                         </td>
                         <td>
-                            {{ $speed->created_at }}
+                            {{ $item->created_at }}
                         </td>
                         <td>
-                            {{ $speed->updated_at }}
+                            {{ $item->updated_at }}
                         </td>
                         <td>
-                            <a href="{{ route('edit.item', ['item_id' => $speed->item_id]) }}">Edit</a>
+                            <a href="{{ route('edit.item', ['item_id' => $item->item_id]) }}">Edit</a>
                             <br>
-                            <a href="{{ route('delete.item', ['item_id' => $speed->item_id]) }}">Delete</a>
+                            <a href="#" onclick="confirmDelete({{ $item->item_id }}); return false;">Delete</a>
                             <!-- <select name="" id="" onchange="location = this.value;">                        
                                                 <option value="">Action</option>
                                                 <option value="/show_user">Show</option>
@@ -103,6 +112,24 @@
             }, 500);
         });
     }
+
+    let selectedItemId = null;
+
+    function confirmDelete(itemId) {
+        selectedItemId = itemId;
+        document.getElementById('deleteModal').style.display = 'block';
+    }
+
+    document.getElementById('cancel').addEventListener('click', function () {
+        document.getElementById('deleteModal').style.display = 'none';
+        selectedItemId = null;
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+        if (selectedItemId) {
+            window.location.href = `/delete_item/${selectedItemId}`;
+        }
+    });
 </script>
 
 </html>

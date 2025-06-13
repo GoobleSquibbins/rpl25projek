@@ -19,6 +19,14 @@
             </p>
         </div>
     @endif
+
+    <div class="delete_conf" id="deleteModal">
+        <h1>Delete User?</h1>
+        <div class="del_btn">
+            <button id="del">Delete</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </div>
     <div class="main">
 
         <div class="sidebar">
@@ -71,7 +79,7 @@
                         <td>
                             <a href="{{ route('edit.speed', ['speed_id' => $speed->speed_id]) }}">Edit</a>
                             <br>
-                            <a href="{{ route('delete.speed', ['speed_id' => $speed->speed_id]) }}">Delete</a>
+                            <a href="#" onclick="confirmDelete({{ $speed->speed_id }}); return false;">Delete</a>
                             <!-- <select name="" id="" onchange="location = this.value;">                        
                                             <option value="">Action</option>
                                             <option value="/show_user">Show</option>
@@ -105,6 +113,24 @@
             }, 500);
         });
     }
+
+    let selectedSpeedId = null;
+
+    function confirmDelete(speedId) {
+        selectedSpeedId = speedId;
+        document.getElementById('deleteModal').style.display = 'block';
+    }
+
+    document.getElementById('cancel').addEventListener('click', function () {
+        document.getElementById('deleteModal').style.display = 'none';
+        selectedSpeedId = null;
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+        if (selectedSpeedId) {
+            window.location.href = `/delete_speed/${selectedSpeedId}`;
+        }
+    });
 </script>
 
 </html>

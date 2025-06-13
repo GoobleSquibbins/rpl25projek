@@ -19,6 +19,14 @@
         </div>
     @endif
 
+    <div class="delete_conf" id="deleteModal">
+        <h1>Delete User?</h1>
+        <div class="del_btn">
+            <button id="del">Delete</button>
+            <button id="cancel">Cancel</button>
+        </div>
+    </div>
+
     <div class="main">
         <div class="sidebar">
             @if (Auth::user()->role == 'admin')
@@ -69,7 +77,7 @@
                             <br>
                             <a href="{{ route('edit.user', ['user_id' => $users->user_id]) }}">Edit</a>
                             <br>
-                            <a href="{{ route('delete.user', ['user_id' => $users->user_id]) }}">Delete</a>
+                            <a href="#" onclick="confirmDelete({{ $users->user_id }}); return false;">Delete</a>
                             <!-- <select name="" id="" onchange="location = this.value;">                        
                                         <option value="">Action</option>
                                         <option value="/show_user">Show</option>
@@ -103,6 +111,24 @@
             }, 500);
         });
     }
+
+    let selectedUserId = null;
+
+    function confirmDelete(userId) {
+        selectedUserId = userId;
+        document.getElementById('deleteModal').style.display = 'block';
+    }
+
+    document.getElementById('cancel').addEventListener('click', function () {
+        document.getElementById('deleteModal').style.display = 'none';
+        selectedUserId = null;
+    });
+
+    document.getElementById('del').addEventListener('click', function () {
+        if (selectedUserId) {
+            window.location.href = `/delete_user/${selectedUserId}`;
+        }
+    });
 </script>
 
 
